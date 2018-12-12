@@ -78,10 +78,11 @@ public class PipelineToDot {
 
       sb.append(indent).append(name).append(";\n");
 
-      // outgoing edges
+//      // outgoing edges
       for(PValue value : node.getOutputs().values()){
         sb.append(indent).append(name).append(" -> ").append(normalizeName(value.getName())).append(";\n");
       }
+
 
       // incoming edges
       //TODO do we need this ?
@@ -115,15 +116,7 @@ public class PipelineToDot {
     }
 
     private String normalizeClusterName(String clusterName){
-      String name  = clusterName
-          .replaceAll("\\.", "_")
-          .replaceAll("/", "_")
-          .replaceAll(" ", "_")
-          .replaceAll("\\$", "")
-          .replaceAll("\\(", "_")
-          .replaceAll("\\)", "_");
-
-      return name;
+      return clusterName.replaceAll("[^A-Za-z0-9]", "_");
     }
 
     private String getGeneratedDot(){

@@ -32,12 +32,12 @@ public class PipelineToDotTest {
             .via(i -> Arrays.asList(i, 2 * i, 3 * i)))
         .apply(MapElements.into(TypeDescriptors.integers()).via(i -> i + 2));
 
-    transformed.apply("calc sum",Combine.globally( (input) -> StreamSupport.stream(input.spliterator(), false)
+    transformed.apply("calc$sum",Combine.globally( (input) -> StreamSupport.stream(input.spliterator(), false)
     .reduce( (a, b) -> a+b).orElse(0)));
 
     transformed
         .apply("format", MapElements.into(TypeDescriptors.strings()).via(Object::toString))
-        .apply("write to temp", TextIO.write().to(folder.getRoot().getAbsolutePath() + "/out.txt"));
+        .apply("write-to-temp", TextIO.write().to(folder.getRoot().getAbsolutePath() + "/out.txt"));
 
     String dot = PipelineToDot.convert2Dot(pipeline);
 
